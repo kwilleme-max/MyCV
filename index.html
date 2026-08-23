@@ -15,9 +15,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Chart.js for Athletic Stats -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
         tailwind.config = {
@@ -695,7 +692,7 @@
                         <span class="px-2.5 py-1 rounded-full bg-rose-50 text-rose-700 text-xs font-semibold shrink-0">Ironman Finisher</span>
                     </div>
                     <p class="text-xs text-slate-700 leading-relaxed mb-4">
-                        Triathlon is where I build the discipline and resilience I bring to client work. Finisher of a full <strong>Ironman</strong> and 6 Half Ironman races, with a marathon best of <strong>2h 35m</strong>.
+                        Triathlon is where I build the discipline and resilience I bring to client work. Finisher of a full-distance <strong>Ironman</strong> and around 10 Half Ironman races, with a marathon record of <strong>2h 35m</strong>.
                     </p>
                     <div class="grid grid-cols-3 gap-2">
                         <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-100 text-center">
@@ -703,24 +700,14 @@
                             <p class="text-[10px] text-slate-500">Full Ironman</p>
                         </div>
                         <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-100 text-center">
-                            <p class="text-sm font-bold text-slate-900">6</p>
+                            <p class="text-sm font-bold text-slate-900">~10</p>
                             <p class="text-[10px] text-slate-500">Half Ironman</p>
                         </div>
                         <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-100 text-center">
                             <p class="text-sm font-bold text-slate-900">2h 35m</p>
-                            <p class="text-[10px] text-slate-500">Marathon PB</p>
+                            <p class="text-[10px] text-slate-500">Marathon Record</p>
                         </div>
                     </div>
-                </div>
-
-                <!-- Theatre -->
-                <div class="white-board-panel rounded-2xl p-6 lg:p-8">
-                    <h3 class="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2.5">
-                        <i class="fa-solid fa-masks-theater text-rose-600"></i> Theatre & Performance
-                    </h3>
-                    <p class="text-xs text-slate-700 leading-relaxed">
-                        Participated in a group theatre representation of <strong>"Le Ravissement d'Adèle."</strong> Strong public speaking, stage presence, and voice projection abilities applied to key client pitches and conferences.
-                    </p>
                 </div>
 
                 <!-- New Technology -->
@@ -733,23 +720,16 @@
                     </p>
                 </div>
 
-            </div>
-
-            <!-- Athletic Performance Graph -->
-            <div class="white-board-panel rounded-2xl p-6 lg:p-8">
-                <div class="flex items-center justify-between mb-4">
-                    <div>
-                        <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2.5">
-                            <i class="fa-solid fa-chart-simple text-rose-600"></i> Performance Benchmarks
-                        </h3>
-                        <p class="text-xs text-slate-500 mt-0.5">Endurance sports demonstrate discipline, resilience, and goal setting</p>
-                    </div>
+                <!-- Theatre -->
+                <div class="white-board-panel rounded-2xl p-6 lg:p-8">
+                    <h3 class="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2.5">
+                        <i class="fa-solid fa-masks-theater text-rose-600"></i> Theatre & Performance
+                    </h3>
+                    <p class="text-xs text-slate-700 leading-relaxed">
+                        Participated in a group theatre representation of <strong>"Le Ravissement d'Adèle."</strong> Something I took on with the intention of pushing myself out of my comfort zone, and that has gradually helped me grow more comfortable with public speaking and stage presence.
+                    </p>
                 </div>
 
-                <!-- Chart Canvas -->
-                <div class="relative h-48 w-full">
-                    <canvas id="sportsChart"></canvas>
-                </div>
             </div>
 
         </div>
@@ -864,56 +844,6 @@
             requestAnimationFrame(drawParticles);
         }
         drawParticles();
-
-        // Sports Performance Chart
-        window.onload = function() {
-            const chartCtx = document.getElementById('sportsChart').getContext('2d');
-            new Chart(chartCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['10K Race', 'Half Marathon', 'Full Marathon', 'Half Ironman (6x)', 'Full Ironman'],
-                    datasets: [{
-                        label: 'Performance Benchmarks',
-                        data: [33.5, 82, 155, 290, 630], // approximate relative duration units in mins
-                        backgroundColor: [
-                            'rgba(225, 29, 72, 0.8)',
-                            'rgba(225, 29, 72, 0.65)',
-                            'rgba(225, 29, 72, 0.85)',
-                            'rgba(37, 99, 235, 0.75)',
-                            'rgba(15, 23, 42, 0.85)'
-                        ],
-                        borderRadius: 8
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const raw = context.raw;
-                                    if (context.dataIndex === 0) return 'PB: 33m 29s';
-                                    if (context.dataIndex === 1) return 'PB: 1h 22m';
-                                    if (context.dataIndex === 2) return 'PB: 2h 35m';
-                                    if (context.dataIndex === 3) return '6 Races Completed';
-                                    if (context.dataIndex === 4) return '1 Full Ironman Finisher';
-                                    return raw + ' mins';
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        y: { display: false },
-                        x: {
-                            grid: { display: false },
-                            ticks: { font: { size: 10 } }
-                        }
-                    }
-                }
-            });
-        };
 
         // Photo Preview Loader
         function previewUserPhoto(event) {
