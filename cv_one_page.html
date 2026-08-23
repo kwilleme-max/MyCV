@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Kevin Willeme - CV</title>
+<style>
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color: #1e293b;
+    font-size: 9.2pt;
+    line-height: 1.38;
+  }
+  .page { display: grid; grid-template-columns: 68mm 1fr; width: 210mm; height: 297mm; }
+
+  /* ---------- Sidebar ---------- */
+  .sidebar {
+    background: linear-gradient(165deg, #0f172a 0%, #1e1033 55%, #4c0519 100%);
+    color: #e2e8f0;
+    padding: 11mm 8mm 8mm 8mm;
+  }
+  .photo-wrap {
+    width: 30mm; height: 30mm; border-radius: 50%; overflow: hidden;
+    margin: 0 auto 5mm auto; border: 0.7mm solid rgba(255,255,255,0.85);
+    box-shadow: 0 0 0 1.4mm rgba(225,29,72,0.35);
+    position: relative;
+  }
+  .photo-wrap img {
+    position: absolute; width: 150%; height: 150%; max-width: none; max-height: none;
+    top: -3%; left: -21%; object-fit: cover;
+  }
+  .side-name { text-align: center; font-size: 14pt; font-weight: 700; color: #ffffff; letter-spacing: 0.2px; margin-bottom: 0.5mm; }
+  .side-role { text-align: center; font-size: 8.3pt; color: #fb7185; font-weight: 600; margin-bottom: 7mm; }
+
+  .side-h { display: flex; align-items: center; gap: 1.8mm; font-size: 8.4pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: #fda4af; margin: 6mm 0 2.6mm 0; }
+  .side-h:first-of-type { margin-top: 0; }
+  .side-h svg { width: 3mm; height: 3mm; flex: none; }
+  .side-h .line { flex: 1; height: 0.4mm; background: rgba(255,255,255,0.18); }
+
+  .c-item { display: flex; gap: 2.2mm; align-items: flex-start; margin-bottom: 2.6mm; font-size: 7.9pt; color: #e2e8f0; }
+  .c-item svg { width: 3mm; height: 3mm; flex: none; margin-top: 0.4mm; color: #fb7185; }
+  .c-item span { word-break: break-word; }
+
+  .lang-row { display: flex; justify-content: space-between; font-size: 7.9pt; margin-bottom: 1.6mm; color: #e2e8f0; }
+  .lang-row b { color: #fff; }
+
+  .edu-item { margin-bottom: 3.4mm; }
+  .edu-item .t { font-weight: 700; font-size: 8.1pt; color: #fff; }
+  .edu-item .s { font-size: 7.6pt; color: #fb7185; font-weight: 600; margin-top: 0.3mm; }
+  .edu-item .d { font-size: 7.1pt; color: #94a3b8; margin-top: 0.3mm; }
+
+  .tag-title { font-size: 7.7pt; font-weight: 700; color: #fff; margin-bottom: 1.4mm; }
+  .tags { display: flex; flex-wrap: wrap; gap: 1.2mm; margin-bottom: 2.8mm; }
+  .tag { background: rgba(255,255,255,0.1); border: 0.25mm solid rgba(255,255,255,0.18); color: #f1f5f9; font-size: 7pt; padding: 0.9mm 2.1mm; border-radius: 3mm; white-space: nowrap; }
+
+  .side-passions { font-size: 7.5pt; color: #cbd5e1; margin-top: 1mm; }
+  .side-passions .p-row { display: flex; gap: 2.2mm; align-items: flex-start; margin-bottom: 2mm; }
+  .side-passions svg { width: 3.2mm; height: 3.2mm; flex: none; margin-top: 0.3mm; color: #fb7185; }
+
+  /* ---------- Main ---------- */
+  .main { padding: 11mm 10mm 8mm 9mm; }
+
+  .stats-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 4mm; margin-bottom: 6mm; }
+  .stat { border-left: 0.8mm solid #e11d48; padding-left: 2.6mm; }
+  .stat .num { font-size: 13pt; font-weight: 800; color: #0f172a; line-height: 1; }
+  .stat .lbl { font-size: 6.9pt; color: #64748b; margin-top: 0.6mm; }
+
+  .m-h { display: flex; align-items: center; gap: 2mm; font-size: 10.5pt; font-weight: 700; color: #0f172a; margin: 0 0 2.6mm 0; }
+  .m-h svg { width: 3.6mm; height: 3.6mm; color: #e11d48; }
+
+  .summary { font-size: 8.7pt; color: #334155; margin-bottom: 5.5mm; }
+
+  .timeline { position: relative; padding-left: 4.2mm; border-left: 0.4mm solid #fecdd3; }
+  .job { position: relative; margin-bottom: 4mm; }
+  .job::before {
+    content: ''; position: absolute; left: -5.15mm; top: 1mm;
+    width: 2.4mm; height: 2.4mm; border-radius: 50%; background: #e11d48; border: 0.5mm solid #fff;
+    box-shadow: 0 0 0 0.3mm #fecdd3;
+  }
+  .job-head { display: flex; justify-content: space-between; align-items: baseline; gap: 3mm; }
+  .job-title { font-weight: 700; font-size: 9.1pt; color: #0f172a; }
+  .job-current { font-size: 6.4pt; font-weight: 700; color: #e11d48; background: #fff1f2; padding: 0.4mm 1.6mm; border-radius: 2.5mm; margin-left: 1.4mm; }
+  .job-dates { font-size: 7.3pt; color: #94a3b8; white-space: nowrap; font-weight: 600; }
+  .job-company { font-size: 8pt; color: #e11d48; font-weight: 600; margin-top: 0.2mm; }
+  .job ul { margin: 1.2mm 0 0 0; padding-left: 3.2mm; }
+  .job li { margin-bottom: 0.7mm; font-size: 8.1pt; color: #334155; }
+  .job-oneline { font-size: 8.1pt; color: #475569; margin-top: 0.8mm; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ============ SIDEBAR ============ -->
+  <div class="sidebar">
+
+    <div class="photo-wrap"><img src="profile.jpg"></div>
+    <div class="side-name">Kevin Willeme</div>
+    <div class="side-role">Account Manager</div>
+
+    <div class="side-h">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.2 1L6.6 10.8z"/></svg>
+      Contact<div class="line"></div>
+    </div>
+    <div class="c-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.2 1L6.6 10.8z"/></svg><span>+34 667 280 447</span></div>
+    <div class="c-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 5.5A1.5 1.5 0 0 1 3.5 4h17A1.5 1.5 0 0 1 22 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-17A1.5 1.5 0 0 1 2 18.5v-13zM4 6l8 5.5L20 6H4zm16 1.9-7.4 5.1a1 1 0 0 1-1.2 0L4 7.9V18h16V7.9z"/></svg><span>k.willeme@gmail.com</span></div>
+    <div class="c-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.9 8.4H3.6V20H6.9V8.4zM5.3 3C4.2 3 3.4 3.8 3.4 4.9c0 1 .8 1.9 2 1.9 1.1 0 1.9-.8 1.9-1.9C7.3 3.8 6.5 3 5.3 3zM20.4 20h-3.3v-6.2c0-1.5-.5-2.6-1.9-2.6-1 0-1.6.7-1.9 1.4-.1.2-.1.6-.1.9V20H9.9s.1-10.5 0-11.6h3.3v1.6c.4-.7 1.2-1.7 3-1.7 2.2 0 3.9 1.4 3.9 4.5V20z"/></svg><span>linkedin.com/in/kwilleme</span></div>
+    <div class="c-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C7.6 2 4 5.6 4 10c0 5.4 7 11.5 7.3 11.7.2.2.5.3.7.3s.5-.1.7-.3C13 21.5 20 15.4 20 10c0-4.4-3.6-8-8-8zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg><span>Barcelona, Spain</span></div>
+
+    <div class="side-h">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.87 15.07l-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg>
+      Languages<div class="line"></div>
+    </div>
+    <div class="lang-row"><b>French</b><span>Native</span></div>
+    <div class="lang-row"><b>English</b><span>C2</span></div>
+    <div class="lang-row"><b>Spanish</b><span>C2</span></div>
+
+    <div class="side-h">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 1 9l11 6 9-4.9V17h2V9L12 3zM5 13.2v3.2c0 2 3.1 3.6 7 3.6s7-1.6 7-3.6v-3.2l-7 3.8-7-3.8z"/></svg>
+      Education<div class="line"></div>
+    </div>
+    <div class="edu-item">
+      <div class="t">Master 2, Digital Marketing</div>
+      <div class="s">NEOMA Business School</div>
+      <div class="d">2013 &ndash; 2018</div>
+    </div>
+    <div class="edu-item">
+      <div class="t">Classe Pr&eacute;paratoire (CPGE)</div>
+      <div class="s">Saint Michel de Picpus</div>
+      <div class="d">2011 &ndash; 2013</div>
+    </div>
+    <div class="edu-item">
+      <div class="t">Baccalaur&eacute;at &mdash; Mention Bien</div>
+      <div class="s">Lyc&eacute;e Lakanal, Sceaux</div>
+      <div class="d">2008 &ndash; 2011</div>
+    </div>
+
+    <div class="side-h">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 2 7l10 5 10-5-10-5zm0 8L2 5v6l10 5 10-5V5l-10 5zm0 7L2 12v5l10 5 10-5v-5l-10 5z" transform="scale(0.8) translate(2.5,2)"/></svg>
+      Skills &amp; Tools<div class="line"></div>
+    </div>
+    <div class="tag-title">Programmatic DSPs</div>
+    <div class="tags"><span class="tag">DV360</span><span class="tag">Amazon DSP</span><span class="tag">The Trade Desk</span><span class="tag">Xandr</span></div>
+    <div class="tag-title">Social &amp; Paid Media</div>
+    <div class="tags"><span class="tag">Meta Ads</span><span class="tag">TikTok Ads</span><span class="tag">Pinterest</span><span class="tag">LinkedIn Ads</span></div>
+    <div class="tag-title">Analytics &amp; MMPs</div>
+    <div class="tags"><span class="tag">GA4</span><span class="tag">CM360</span><span class="tag">IAS/DV/MOAT</span><span class="tag">AppsFlyer</span></div>
+
+    <div class="side-h">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-6.7-4.4-9.3-8.1C.6 9.8 1.6 6.6 4.3 5.4c2-.9 4.1-.2 5.4 1.3.6.7 1.2 1.6 2.3 1.6s1.7-.9 2.3-1.6c1.3-1.5 3.4-2.2 5.4-1.3 2.7 1.2 3.7 4.4 1.6 7.5C18.7 16.6 12 21 12 21z"/></svg>
+      Beyond Work<div class="line"></div>
+    </div>
+    <div class="side-passions">
+      <div class="p-row"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 5.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM9.8 8.9l-3 1.3-1.7 3.5 1.4.7 1.4-2.8 1.6-.7-.9 4.3-3.2 3.3 1.1 1.1 3.4-3.4 1-3.7 1.5 1.7v4.2h1.6v-4.8l-1.9-1.9.5-2.6c1.1 1.1 2.7 1.9 4.5 1.9v-1.6c-1.6 0-2.9-.8-3.6-2l-.9-1.3c-.4-.6-1.5-.9-2.3-.2l-3.5 3.1v-.1z"/></svg><span><b>Triathlon</b> &mdash; Ironman finisher, marathon record 2h35</span></div>
+      <div class="p-row"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 3v9c0 3.9 3.1 7.2 7 7.5V21H8v2h8v-2h-3v-1.5c3.9-.3 7-3.6 7-7.5V3H4zm2 2h12v3H6V5zm0 5h12v2c0 3.3-2.7 6-6 6s-6-2.7-6-6v-2z"/></svg><span><b>Theatre</b> &mdash; "Le Ravissement d'Ad&egrave;le"</span></div>
+      <div class="p-row"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 2v2H7a2 2 0 0 0-2 2v2H3v2h2v2H3v2h2v2H3v2h2v2a2 2 0 0 0 2 2h2v2h2v-2h2v2h2v-2h2a2 2 0 0 0 2-2v-2h2v-2h-2v-2h2v-2h-2V8h2V6h-2V4a2 2 0 0 0-2-2h-2V0h-2v2h-2V0H9v2zM7 6h10v12H7V6zm2 2v8h6V8H9z"/></svg><span><b>New Technology</b> &mdash; AI &amp; emerging tech, always testing</span></div>
+    </div>
+
+  </div>
+
+  <!-- ============ MAIN ============ -->
+  <div class="main">
+
+    <div class="stats-row">
+      <div class="stat"><div class="num">8+</div><div class="lbl">Years Experience</div></div>
+      <div class="stat"><div class="num">&euro;10M+</div><div class="lbl">Budget Managed</div></div>
+      <div class="stat"><div class="num">10+</div><div class="lbl">Global Accounts</div></div>
+    </div>
+
+    <div class="m-h"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.2 0 4-1.8 4-4s-1.8-4-4-4-4 1.8-4 4 1.8 4 4 4zm0 2c-3.3 0-8 1.7-8 4.9V21h16v-2.1c0-3.2-4.7-4.9-8-4.9z"/></svg>Profile</div>
+    <p class="summary">
+      Account Manager with 8 years of client-facing experience across global agencies and ad-tech platforms.
+      Known for building strong client relationships and driving real results through smart, hands-on campaign
+      management &mdash; collaborative, detail-driven, and easy to work with.
+    </p>
+
+    <div class="m-h"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 2a2 2 0 0 0-2 2v1H4a2 2 0 0 0-2 2v3h20V7a2 2 0 0 0-2-2h-4V4a2 2 0 0 0-2-2h-4zm0 3V4h4v1h-4zM2 12v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-7H2z"/></svg>Experience</div>
+
+    <div class="timeline">
+
+      <div class="job">
+        <div class="job-head">
+          <span><span class="job-title">Client Growth Manager</span><span class="job-current">Current</span></span>
+          <span class="job-dates">Sept 2025 &ndash; Present</span>
+        </div>
+        <div class="job-company">Smadex (Entravision)</div>
+        <ul>
+          <li>Manage 10+ client accounts (Amazon Shopping, Shopify, NordVPN) across USA, EMEA, Russia &amp; Middle East.</li>
+          <li>Drove 100% growth in managed spend between Q3 2025 and Q3 2026, upselling clients into CTV and retargeting.</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-head">
+          <span class="job-title">Programmatic Account Manager (Freelance)</span>
+          <span class="job-dates">Nov 2023 &ndash; Aug 2025</span>
+        </div>
+        <div class="job-company">GroupM</div>
+        <ul>
+          <li>Managed &euro;10M+ in annual programmatic budget for Nestl&eacute;, Burger King, TotalEnergies, Allianz &amp; Colgate.</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-head">
+          <span class="job-title">International Multimedia Account Manager (Colgate)</span>
+          <span class="job-dates">Jun 2021 &ndash; Oct 2023</span>
+        </div>
+        <div class="job-company">KR Wavemaker, GroupM Paris</div>
+        <div class="job-oneline">Managed &euro;5&ndash;10M in programmatic budget across France, Belgium &amp; the Netherlands.</div>
+      </div>
+
+      <div class="job">
+        <div class="job-head">
+          <span class="job-title">Digital Account Director (Opel)</span>
+          <span class="job-dates">Jan 2021 &ndash; Jun 2021</span>
+        </div>
+        <div class="job-company">Mediacom, GroupM Paris</div>
+        <div class="job-oneline">Led client relationship and full-funnel digital strategy, supervising 1 Junior Account Manager.</div>
+      </div>
+
+      <div class="job">
+        <div class="job-head">
+          <span class="job-title">Programmatic Account Manager / Director (Peugeot)</span>
+          <span class="job-dates">Jan 2018 &ndash; Dec 2020</span>
+        </div>
+        <div class="job-company">GroupM Paris</div>
+        <div class="job-oneline">Planned, bought and reported on programmatic campaigns, supervising 1 Junior Trader.</div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
