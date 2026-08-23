@@ -155,7 +155,7 @@
                                  onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80'"
                                  alt="Kevin Willeme"
                                  class="absolute object-cover"
-                                 style="width:170%; height:170%; max-width:none; max-height:none; top:-1%; left:-24.8%;">
+                                 style="width:150%; height:150%; max-width:none; max-height:none; top:-3%; left:-21%;">
                         </div>
                         <div class="absolute inset-0 rounded-full bg-slate-900/50 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-white text-xs font-semibold z-10 backdrop-blur-[2px]">
                             <i class="fa-solid fa-camera text-lg mb-1"></i>
@@ -206,15 +206,10 @@
                             </div>
                             <div>
                                 <p class="text-xs font-bold text-white">My Audio Presentation</p>
-                                <p class="text-[10px] text-slate-300">Listen in your language</p>
+                                <p class="text-[10px] text-slate-300">Hear my elevator pitch</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-2 w-full sm:w-auto justify-center">
-                            <select id="tts-lang-select" class="bg-slate-800 text-white text-xs rounded-lg px-2 py-1.5 border border-slate-700 focus:outline-none">
-                                <option value="EN">EN 🇬🇧</option>
-                                <option value="FR">FR 🇫🇷</option>
-                                <option value="ES">ES 🇪🇸</option>
-                            </select>
                             <button id="tts-play-btn" onclick="playAiVoicePitch()" class="px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold transition flex items-center justify-center gap-1.5 shrink-0 shadow">
                                 <i class="fa-solid fa-play text-[10px]"></i> <span id="tts-btn-text">Listen</span>
                             </button>
@@ -913,21 +908,16 @@
 
         // Voice Pitch player simulation
         function playAiVoicePitch() {
-            const lang = document.getElementById('tts-lang-select').value;
             const btnText = document.getElementById('tts-btn-text');
-            
+
             btnText.innerText = 'Playing...';
-            
-            let pitchText = "Hello! I am Kevin Willeme, an Account Manager with over 8 years of digital media experience.";
-            if (lang === 'FR') pitchText = "Bonjour! Je suis Kevin Willeme, Account Manager avec plus de 7 ans d'expérience en médias digitaux.";
-            if (lang === 'ES') pitchText = "¡Hola! Soy Kevin Willeme, Account Manager con más de 7 años de experiencia en medios digitales.";
+
+            const pitchText = "Hello! I am Kevin Willeme, an Account Manager with over 8 years of digital media experience.";
 
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(pitchText);
-                if (lang === 'FR') utterance.lang = 'fr-FR';
-                else if (lang === 'ES') utterance.lang = 'es-ES';
-                else utterance.lang = 'en-US';
+                utterance.lang = 'en-US';
 
                 utterance.onend = function() {
                     btnText.innerText = 'Listen';
