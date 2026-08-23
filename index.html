@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kevin Willeme | Account Manager</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js for Athletic Stats -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        rose: {
+                            50: '#fff1f2',
+                            100: '#ffe4e6',
+                            200: '#fecdd3',
+                            500: '#f43f5e',
+                            600: '#e11d48',
+                            700: '#be123c',
+                            900: '#881337',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+        
+        /* White Board Panel styling */
+        .white-board-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #e11d48 0%, #9f1239 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Background Canvas */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        @media print {
+            #bg-canvas, nav, .no-print {
+                display: none !important;
+            }
+            body {
+                background: white !important;
+                color: black !important;
+            }
+            .white-board-panel {
+                box-shadow: none !important;
+                border: 1px solid #ccc !important;
+            }
+        }
+    </style>
+</head>
+<body class="relative min-h-screen antialiased text-slate-800 pb-16">
+
+    <!-- Background Canvas -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200/80 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-rose-600 to-rose-500 flex items-center justify-center text-white font-black shadow-md shadow-rose-500/20">
+                    KW
+                </div>
+                <span class="font-bold text-slate-900 tracking-tight text-lg">Kevin Willeme</span>
+            </div>
+
+            <div class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
+                <a href="#about" class="hover:text-rose-600 transition">About</a>
+                <a href="#experience" class="hover:text-rose-600 transition">Experience</a>
+                <a href="#skills" class="hover:text-rose-600 transition">Skills & Stack</a>
+                <a href="#achievements" class="hover:text-rose-600 transition">Achievements</a>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <button onclick="window.print()" class="px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-print"></i> <span class="hidden sm:inline">Print / PDF</span>
+                </button>
+                <a href="mailto:k.willeme@gmail.com" class="px-4 py-2 text-xs font-bold rounded-lg bg-rose-600 hover:bg-rose-700 text-white transition shadow-sm shadow-rose-600/30 flex items-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i> Contact Me
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero / Profile Section -->
+    <header id="about" class="relative z-10 pt-8 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                <!-- Left Column: Avatar & Quick Info -->
+                <div class="lg:col-span-4 flex flex-col items-center text-center white-board-panel rounded-2xl p-6 lg:p-8">
+                    <!-- Profile Picture -->
+                    <div class="relative mb-4 group cursor-pointer" onclick="document.getElementById('avatar-input').click()" title="Click to upload/change photo">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-rose-500 to-rose-700 rounded-full blur opacity-40 group-hover:opacity-75 transition duration-500"></div>
+                        <img id="profile-img"
+                             src="1702409660827.jpg" 
+                             onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80'" 
+                             alt="Kevin Willeme" 
+                             class="relative w-36 h-36 sm:w-40 sm:h-40 rounded-full object-cover border-4 border-white shadow-xl">
+                        <div class="absolute inset-0 rounded-full bg-slate-900/50 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-white text-xs font-semibold z-10 backdrop-blur-[2px]">
+                            <i class="fa-solid fa-camera text-lg mb-1"></i>
+                            <span>Upload Photo</span>
+                        </div>
+                        <span class="absolute bottom-2 right-2 w-5 h-5 bg-emerald-500 border-2 border-white rounded-full z-20" title="Available for Strategic Roles"></span>
+                    </div>
+
+                    <input type="file" id="avatar-input" accept="image/*" class="hidden" onchange="previewUserPhoto(event)">
+
+                    <!-- Badge -->
+                    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold mb-3">
+                        <i class="fa-solid fa-award"></i> 7+ Years Advertising Experience
+                    </div>
+                    
+                    <!-- Title -->
+                    <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-1">
+                        Kevin <span class="text-gradient">WILLEME</span>
+                    </h1>
+                    <p class="text-xl font-bold text-rose-600 mb-4">Account Manager</p>
+
+                    <!-- Meta Tags -->
+                    <div class="flex flex-wrap gap-2 justify-center text-xs text-slate-600 mb-6">
+                        <span class="px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 font-medium">
+                            <i class="fa-solid fa-cake-candles text-rose-600 mr-1.5"></i>32 Years Old
+                        </span>
+                        <span class="px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 font-medium">
+                            <i class="fa-solid fa-location-dot text-rose-600 mr-1.5"></i>Barcelona, Spain
+                        </span>
+                    </div>
+
+                    <!-- Contact Buttons -->
+                    <div class="w-full space-y-2.5">
+                        <button onclick="copyToClipboard('k.willeme@gmail.com')" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold flex items-center justify-center gap-2 transition shadow-sm">
+                            <i class="fa-regular fa-envelope text-rose-400 text-sm"></i>
+                            <span id="email-text">k.willeme@gmail.com</span>
+                        </button>
+                        <a href="https://linkedin.com/in/kwilleme/" target="_blank" rel="noopener" class="w-full px-4 py-2.5 rounded-xl bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-700 text-xs font-semibold flex items-center justify-center gap-2 transition">
+                            <i class="fa-brands fa-linkedin text-blue-600 text-base"></i> LinkedIn Profile
+                        </a>
+                    </div>
+
+                    <!-- AI TTS Voice Pitch Trigger -->
+                    <div class="w-full mt-4 p-3.5 rounded-xl bg-gradient-to-r from-slate-900 to-rose-950 text-white flex flex-col sm:flex-row items-center justify-between gap-3 shadow-md border border-rose-900/30">
+                        <div class="flex items-center gap-2.5 text-left">
+                            <div class="w-8 h-8 rounded-full bg-rose-600/30 border border-rose-500/40 flex items-center justify-center text-rose-300 shrink-0">
+                                <i class="fa-solid fa-volume-high text-xs"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold text-white"> Voice Elevator Pitch</p>
+                                <p class="text-[10px] text-slate-300">Listen in your language</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2 w-full sm:w-auto justify-center">
+                            <select id="tts-lang-select" class="bg-slate-800 text-white text-xs rounded-lg px-2 py-1.5 border border-slate-700 focus:outline-none">
+                                <option value="EN">EN 🇬🇧</option>
+                                <option value="FR">FR 🇫🇷</option>
+                                <option value="ES">ES 🇪🇸</option>
+                            </select>
+                            <button id="tts-play-btn" onclick="playAiVoicePitch()" class="px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold transition flex items-center justify-center gap-1.5 shrink-0 shadow">
+                                <i class="fa-solid fa-play text-[10px]"></i> <span id="tts-btn-text">Listen</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Executive Profile & Highlights -->
+                <div class="lg:col-span-8 space-y-6">
+                    
+                    <!-- Executive Profile Card -->
+                    <div class="white-board-panel rounded-2xl p-6 lg:p-8 text-center">
+                        <h2 class="text-xl font-bold text-slate-900 mb-3 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-id-card text-rose-600"></i> Executive Profile
+                        </h2>
+                        <p class="text-slate-700 leading-relaxed text-base mb-6 font-normal max-w-2xl mx-auto">
+                            32 yo Account Manager and digital media consultant with 7+ years of advertising experience across leading global agency networks and ad-tech platforms. Driven to deliver exceptional results through strategic client growth, performance campaign management, and cross-market execution. Fluent in French, English, and Spanish. Proactive, collaborative, and passionate about triathlon.
+                        </p>
+
+                        <!-- Key Details Strip -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-5 border-t border-slate-100">
+                            <div class="flex items-center justify-center gap-3">
+                                <div class="w-9 h-9 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center font-bold">
+                                    <i class="fa-solid fa-phone"></i>
+                                </div>
+                                <div class="text-left">
+                                    <p class="text-[11px] text-slate-400 font-medium">Phone</p>
+                                    <p class="text-xs sm:text-sm font-semibold text-slate-800">+34 667 280 447</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-center gap-3">
+                                <div class="w-9 h-9 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center font-bold">
+                                    <i class="fa-solid fa-location-arrow"></i>
+                                </div>
+                                <div class="text-left">
+                                    <p class="text-[11px] text-slate-400 font-medium">Location</p>
+                                    <p class="text-xs sm:text-sm font-semibold text-slate-800">289 av Diagonal, Barcelona</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-center gap-3">
+                                <div class="w-9 h-9 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center font-bold">
+                                    <i class="fa-solid fa-language"></i>
+                                </div>
+                                <div class="text-left">
+                                    <p class="text-[11px] text-slate-400 font-medium">Languages</p>
+                                    <p class="text-xs sm:text-sm font-semibold text-slate-800">FR (Native), EN & ES (C2)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Highlight Metrics Matrix -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        <div class="white-board-panel rounded-xl p-4 text-center border-l-4 border-l-rose-600">
+                            <p class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-1">+100%</p>
+                            <p class="text-xs text-slate-600 font-medium">Managed Spend Growth</p>
+                        </div>
+                        <div class="white-board-panel rounded-xl p-4 text-center border-l-4 border-l-blue-600">
+                            <p class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-1">€10M+</p>
+                            <p class="text-xs text-slate-600 font-medium">Annual Budget Managed</p>
+                        </div>
+                        <div class="white-board-panel rounded-xl p-4 text-center border-l-4 border-l-emerald-600">
+                            <p class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-1">10+</p>
+                            <p class="text-xs text-slate-600 font-medium">Global Accounts Scaled</p>
+                        </div>
+                        <div class="white-board-panel rounded-xl p-4 text-center border-l-4 border-l-amber-500">
+                            <p class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-1">2h 55m</p>
+                            <p class="text-xs text-slate-600 font-medium">Marathon Personal Best</p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- Experience Section -->
+    <section id="experience" class="relative z-10 py-12 bg-slate-50/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+                <div>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-3">
+                        <i class="fa-solid fa-briefcase text-rose-600"></i> Professional Experience
+                    </h2>
+                    <p class="text-sm text-slate-600 mt-1">7+ years of progressive media growth and programmatic account leadership</p>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                
+                <!-- Role 1: Smadex -->
+                <div class="white-board-panel rounded-2xl p-6 lg:p-8 hover:border-rose-300 transition group">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-4 pb-4 border-b border-slate-100">
+                        <div>
+                            <div class="flex items-center gap-2 flex-wrap mb-1">
+                                <h3 class="text-xl font-bold text-slate-900">Client Growth Manager</h3>
+                                <span class="px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-700 text-xs font-semibold">Current Role</span>
+                            </div>
+                            <p class="text-sm font-semibold text-rose-600">Smadex (Entravision)</p>
+                        </div>
+                        <div class="text-left md:text-right">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-100 text-slate-700 text-xs font-medium">
+                                <i class="fa-regular fa-calendar text-slate-500"></i> Sept 2025 – Present
+                            </span>
+                        </div>
+                    </div>
+
+                    <ul class="space-y-3 text-sm text-slate-700 mb-5">
+                        <li class="flex items-start gap-2.5">
+                            <i class="fa-solid fa-circle-check text-rose-600 text-xs mt-1 shrink-0"></i>
+                            <span>Manage a portfolio of <strong>10+ client accounts</strong> spanning multiple concurrent campaigns, including <strong>Amazon Shopping, Shopify, and NordVPN</strong>, across USA, EMEA, Russia, and Middle East regions.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <i class="fa-solid fa-circle-check text-rose-600 text-xs mt-1 shrink-0"></i>
+                            <span><strong>Drove 100% growth in managed spend</strong> between Q3 2025 and Q3 2026, including upselling clients into new CTV and retargeting campaigns.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <i class="fa-solid fa-circle-check text-rose-600 text-xs mt-1 shrink-0"></i>
+                            <span>Own client retention through weekly performance calls with both internal and external stakeholders, coordinating with the buying team to align optimization strategy with account goals.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <i class="fa-solid fa-circle-check text-rose-600 text-xs mt-1 shrink-0"></i>
+                            <span>Translate complex performance data into actionable growth recommendations, presenting new product capabilities directly to clients and at industry events.</span>
+                        </li>
+                    </ul>
+
+                    <div class="flex flex-wrap gap-2 pt-2">
+                        <span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 text-xs font-medium">Account Growth</span>
+                        <span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 text-xs font-medium">CTV & Retargeting</span>
+                        <span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 text-xs font-medium">Amazon Shopping</span>
+                        <span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 text-xs font-medium">Shopify</span>
+                        <span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 text-xs font-medium">NordVPN</span>
+                    </div>
+                </div>
+
+                <!-- Role 2: GroupM Freelance -->
+                <div class="white-board-panel rounded-2xl p-6 lg:p-8 hover:border-rose-300 transition group">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-4 pb-4 border-b border-slate-100">
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900">Programmatic Account Manager (Freelance)</h3>
+                            <p class="text-sm font-semibold text-rose-600">GroupM</p>
+                        </div>
+                        <div class="text-left md:text-right">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-100 text-slate-700 text-xs font-medium">
+                                <i class="fa-regular fa-calendar text-slate-500"></i> Nov 2023 – Aug 2025
+                            </span>
+                        </div>
+                    </div>
+
+                    <ul class="space-y-3 text-sm text-slate-700 mb-5">
+                        <li class="flex items-start gap-2.5">
+                            <i class="fa-solid fa-circle-check text-rose-600 text-xs mt-1 shrink-0"></i>
+                            <span>Delivered end-to-end digital consulting and programmatic buying strategy across major global FMCG and automotive brands.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <i class="fa-solid fa-circle-check text-rose-600 text-xs mt-1 shrink-0"></i>
+                            <span>Managed <strong>€10M+ in annual programmatic budget</strong> for top-tier clients including <strong>Nestlé, Burger King, Quick, TotalEnergies, Allianz, and Colgate</strong> — French market.</span>
+                        </li>
+                    </ul>
+
+                    <div class="flex flex-wrap gap-2 pt-2">
+                        <span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 text-xs font-medium">€10M+ Budget</span>
+                        <span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 text-xs font-medium">Nestlé</span>
+                        <span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 text-xs font-medium">Burger King</span>
+                        <span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 text-xs font-medium">TotalEnergies</span>
+                        <span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 text-xs font-medium">Allianz</span>
+                    </div>
+                </div>
+
+                <!-- Role 3: KR Wavemaker -->
+                <div class="white-board-panel rounded-2xl p-6 lg:p-8 hover:border-rose-300 transition group">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-4 pb-4 border-b border-slate-100">
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900">International Multimedia Account Manager (Colgate)</h3>
+                            <p class="text-sm font-semibold text-rose-600">KR Wavemaker, GroupM Paris</p>
+                        </div>
+                        <div class="text-left md:text-right">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-100 text-slate-700 text-xs font-medium">
+                                <i class="fa-regular fa-calendar text-slate-500"></i> Jun 2021 – Oct 2023
+                            </span>
+                        </div>
+                    </div>
+
+                    <ul class="space-y-3 text-sm text-slate-700 mb-5">
+                        <li class="flex items-start gap-2.5">
+                            <i class="fa-solid fa-circle-check text-rose-600 text-xs mt-1 shrink-0"></i>
+                            <span>Managed <strong>€5–10M in programmatic budget</strong> across France, Belgium, and the Netherlands.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <i class="fa-solid fa-circle-check text-rose-600 text-xs mt-1 shrink-0"></i>
+                            <span>Directed campaign briefing, budgeting, and reporting across 3 markets, aligning local media plans with global strategy.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <i class="fa-solid fa-circle-check text-rose-600 text-xs mt-1 shrink-0"></i>
+                            <span>Identified and rolled out cross-market efficiencies through media audits and best-practice sharing.</span>
+                        </li>
+                    </ul>
+
+                    <div class="flex flex-wrap gap-2 pt-2">
+                        <span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 text-xs font-medium">€5-10M Budget</span>
+                        <span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 text-xs font-medium">Multi-market (FR, BE, NL)</span>
+                        <span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 text-xs font-medium">Colgate-Palmolive</span>
+                    </div>
+                </div>
+
+                <!-- Role 4: Mediacom (Opel) -->
+                <div class="white-board-panel rounded-2xl p-6 lg:p-8 hover:border-rose-300 transition group">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-4 pb-4 border-b border-slate-100">
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900">Digital Account Director (Opel)</h3>
+                            <p class="text-sm font-semibold text-rose-600">Mediacom, GroupM Paris</p>
+                        </div>
+                        <div class="text-left md:text-right">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-100 text-slate-700 text-xs font-medium">
+                                <i class="fa-regular fa-calendar text-slate-500"></i> Jan 2021 – Jun 2021
+                            </span>
+                        </div>
+                    </div>
+
+                    <ul class="space-y-3 text-sm text-slate-700 mb-5">
+                        <li class="flex items-start gap-2.5">
+                            <i class="fa-solid fa-circle-check text-rose-600 text-xs mt-1 shrink-0"></i>
+                            <span>Led client relationship and full-funnel digital strategy (programmatic, social, email, SEA) for Opel, managing billing and supervising 1 Junior Account Manager.</span>
+                        </li>
+                    </ul>
+
+                    <div class="flex flex-wrap gap-2 pt-2">
+                        <span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 text-xs font-medium">Automotive</span>
+                        <span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 text-xs font-medium">Full-Funnel Strategy</span>
+                        <span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 text-xs font-medium">Team Leadership</span>
+                    </div>
+                </div>
+
+                <!-- Role 5: Peugeot -->
+                <div class="white-board-panel rounded-2xl p-6 lg:p-8 hover:border-rose-300 transition group">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-4 pb-4 border-b border-slate-100">
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900">Programmatic Account Manager / Director (Peugeot)</h3>
+                            <p class="text-sm font-semibold text-rose-600">GroupM Paris</p>
+                        </div>
+                        <div class="text-left md:text-right">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-100 text-slate-700 text-xs font-medium">
+                                <i class="fa-regular fa-calendar text-slate-500"></i> Jan 2018 – Dec 2020
+                            </span>
+                        </div>
+                    </div>
+
+                    <ul class="space-y-3 text-sm text-slate-700 mb-5">
+                        <li class="flex items-start gap-2.5">
+                            <i class="fa-solid fa-circle-check text-rose-600 text-xs mt-1 shrink-0"></i>
+                            <span>Planned, bought, and reported on programmatic campaigns for Peugeot, managing media partner relationships and supervising 1 Junior Trader.</span>
+                        </li>
+                    </ul>
+
+                    <div class="flex flex-wrap gap-2 pt-2">
+                        <span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 text-xs font-medium">Programmatic Buying</span>
+                        <span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 text-xs font-medium">Peugeot</span>
+                        <span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 text-xs font-medium">Partner Relations</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Matrix Section -->
+    <section id="skills" class="relative z-10 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-10">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight flex items-center justify-center gap-2.5">
+                    <i class="fa-solid fa-layer-group text-rose-600"></i> Hard Skills & Tech Ecosystem
+                </h2>
+                <p class="text-sm text-slate-600 mt-2">Comprehensive expertise across DSPs, social buying, ad servers, and analytics tools</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- Programmatic Buying -->
+                <div class="white-board-panel rounded-2xl p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center font-bold text-lg">
+                            <i class="fa-solid fa-sliders"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900">Programmatic DSPs</h3>
+                            <p class="text-xs text-slate-500">Buying & Optimization</p>
+                        </div>
+                    </div>
+                    <div class="space-y-2.5">
+                        <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-100 text-xs font-medium text-slate-800">
+                            <span>Display & Video 360 (DV360)</span>
+                            <span class="text-xs text-rose-600 font-bold"><i class="fa-solid fa-circle-check"></i> Certified</span>
+                        </div>
+                        <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-100 text-xs font-medium text-slate-800">
+                            <span>Amazon DSP</span>
+                            <span class="text-xs text-rose-600 font-bold"><i class="fa-solid fa-circle-check"></i> Certified</span>
+                        </div>
+                        <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-100 text-xs font-medium text-slate-800">
+                            <span>The Trade Desk (TTD)</span>
+                            <span class="text-xs text-emerald-600 font-bold">Expert</span>
+                        </div>
+                        <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-100 text-xs font-medium text-slate-800">
+                            <span>Xandr (AppNexus)</span>
+                            <span class="text-xs text-emerald-600 font-bold">Expert</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social & Paid Media -->
+                <div class="white-board-panel rounded-2xl p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center font-bold text-lg">
+                            <i class="fa-solid fa-share-nodes"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900">Social & Paid Media</h3>
+                            <p class="text-xs text-slate-500">Paid Social Ad Platforms</p>
+                        </div>
+                    </div>
+                    <div class="space-y-2.5">
+                        <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-100 text-xs font-medium text-slate-800">
+                            <span>Facebook & Instagram Ads</span>
+                            <span class="text-xs text-slate-500">Advanced</span>
+                        </div>
+                        <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-100 text-xs font-medium text-slate-800">
+                            <span>TikTok Ads Manager</span>
+                            <span class="text-xs text-slate-500">Advanced</span>
+                        </div>
+                        <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-100 text-xs font-medium text-slate-800">
+                            <span>Pinterest Ads</span>
+                            <span class="text-xs text-slate-500">Advanced</span>
+                        </div>
+                        <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-100 text-xs font-medium text-slate-800">
+                            <span>LinkedIn Campaign Manager</span>
+                            <span class="text-xs text-slate-500">Advanced</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analytics & Ad Servers -->
+                <div class="white-board-panel rounded-2xl p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center font-bold text-lg">
+                            <i class="fa-solid fa-chart-pie"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900">Analytics & MMPs</h3>
+                            <p class="text-xs text-slate-500">Verification & Measurement</p>
+                        </div>
+                    </div>
+                    <div class="space-y-2.5">
+                        <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-100 text-xs font-medium text-slate-800">
+                            <span>Google Analytics (GA4)</span>
+                            <span class="text-xs text-slate-500">Expert</span>
+                        </div>
+                        <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-100 text-xs font-medium text-slate-800">
+                            <span>Campaign Manager 360</span>
+                            <span class="text-xs text-slate-500">Expert</span>
+                        </div>
+                        <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-100 text-xs font-medium text-slate-800">
+                            <span>IAS, DoubleVerify, MOAT</span>
+                            <span class="text-xs text-slate-500">Verification</span>
+                        </div>
+                        <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-100 text-xs font-medium text-slate-800">
+                            <span>AppsFlyer & MMP Platforms</span>
+                            <span class="text-xs text-slate-500">Attribution</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Education & Achievements Section -->
+    <section id="achievements" class="relative z-10 py-12 bg-slate-50/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                
+                <!-- Education -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="white-board-panel rounded-2xl p-6 lg:p-8">
+                        <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2.5">
+                            <i class="fa-solid fa-graduation-cap text-rose-600"></i> Education
+                        </h2>
+                        
+                        <div class="border-l-2 border-rose-500 pl-4 py-1">
+                            <h3 class="text-base font-bold text-slate-900">NEOMA BUSINESS SCHOOL</h3>
+                            <p class="text-xs font-semibold text-rose-600 mb-1">Master 2, Digital Marketing (2013–2018)</p>
+                            <p class="text-xs text-slate-600">Active involvement in campus sports committee and event organization.</p>
+                        </div>
+                    </div>
+
+                    <div class="white-board-panel rounded-2xl p-6 lg:p-8">
+                        <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2.5">
+                            <i class="fa-solid fa-masks-theater text-rose-600"></i> Theatre & Creative
+                        </h2>
+                        <p class="text-xs text-slate-700 leading-relaxed">
+                            Participated in a group theatre representation of <strong>"Le Ravissement d'Adèle."</strong> Strong public speaking, stage presence, and voice projection abilities applied to key client pitches and conferences.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Athletic Performance Graph -->
+                <div class="lg:col-span-7">
+                    <div class="white-board-panel rounded-2xl p-6 lg:p-8">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2.5">
+                                    <i class="fa-solid fa-person-running text-rose-600"></i> Athletic Achievements
+                                </h2>
+                                <p class="text-xs text-slate-500 mt-0.5">Endurance sports demonstrate discipline, resilience, and goal setting</p>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-full bg-rose-50 text-rose-700 text-xs font-semibold">Ironman Finisher</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-100 text-center">
+                                <p class="text-lg font-bold text-slate-900">Full Ironman</p>
+                                <p class="text-[11px] text-slate-500">1 Completed</p>
+                            </div>
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-100 text-center">
+                                <p class="text-lg font-bold text-slate-900">Half Ironman</p>
+                                <p class="text-[11px] text-slate-500">6 Races Finished</p>
+                            </div>
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-100 text-center">
+                                <p class="text-lg font-bold text-slate-900">2 Marathons</p>
+                                <p class="text-[11px] text-slate-500">PB: 2h 55m</p>
+                            </div>
+                        </div>
+
+                        <!-- Chart Canvas -->
+                        <div class="relative h-48 w-full">
+                            <canvas id="sportsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Canvas Particle Background Animation
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        const particles = [];
+        const particleCount = 35;
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                vx: (Math.random() - 0.5) * 0.4,
+                vy: (Math.random() - 0.5) * 0.4,
+                radius: Math.random() * 2 + 1
+            });
+        }
+
+        function drawParticles() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.fillStyle = 'rgba(225, 29, 72, 0.25)';
+            ctx.strokeStyle = 'rgba(225, 29, 72, 0.08)';
+
+            for (let i = 0; i < particleCount; i++) {
+                const p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.x < 0) p.x = width;
+                if (p.x > width) p.x = 0;
+                if (p.y < 0) p.y = height;
+                if (p.y > height) p.y = 0;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fill();
+
+                for (let j = i + 1; j < particleCount; j++) {
+                    const p2 = particles[j];
+                    const dx = p.x - p2.x;
+                    const dy = p.y - p2.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 140) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(drawParticles);
+        }
+        drawParticles();
+
+        // Sports Performance Chart
+        window.onload = function() {
+            const chartCtx = document.getElementById('sportsChart').getContext('2d');
+            new Chart(chartCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['10K Race', 'Half Marathon', 'Full Marathon', 'Half Ironman (6x)', 'Full Ironman'],
+                    datasets: [{
+                        label: 'Performance Benchmarks',
+                        data: [33.5, 82, 175, 290, 630], // approximate relative duration units in mins
+                        backgroundColor: [
+                            'rgba(225, 29, 72, 0.8)',
+                            'rgba(225, 29, 72, 0.65)',
+                            'rgba(225, 29, 72, 0.85)',
+                            'rgba(37, 99, 235, 0.75)',
+                            'rgba(15, 23, 42, 0.85)'
+                        ],
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const raw = context.raw;
+                                    if (context.dataIndex === 0) return 'PB: 33m 29s';
+                                    if (context.dataIndex === 1) return 'PB: 1h 22m';
+                                    if (context.dataIndex === 2) return 'PB: 2h 55m';
+                                    if (context.dataIndex === 3) return '6 Races Completed';
+                                    if (context.dataIndex === 4) return '1 Full Ironman Finisher';
+                                    return raw + ' mins';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { display: false },
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { size: 10 } }
+                        }
+                    }
+                }
+            });
+        };
+
+        // Photo Preview Loader
+        function previewUserPhoto(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profile-img').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Copy Email to Clipboard
+        function copyToClipboard(text) {
+            const temp = document.createElement('textarea');
+            temp.value = text;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+            
+            const btnText = document.getElementById('email-text');
+            const original = btnText.innerText;
+            btnText.innerText = 'Copied to Clipboard!';
+            setTimeout(() => { btnText.innerText = original; }, 2000);
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.innerText = text;
+            return div.innerHTML;
+        }
+
+        // Voice Pitch player simulation
+        function playAiVoicePitch() {
+            const lang = document.getElementById('tts-lang-select').value;
+            const btnText = document.getElementById('tts-btn-text');
+            
+            btnText.innerText = 'Playing...';
+            
+            let pitchText = "Hello! I am Kevin Willeme, an Account Manager with over 7 years of digital media experience.";
+            if (lang === 'FR') pitchText = "Bonjour! Je suis Kevin Willeme, Account Manager avec plus de 7 ans d'expérience en médias digitaux.";
+            if (lang === 'ES') pitchText = "¡Hola! Soy Kevin Willeme, Account Manager con más de 7 años de experiencia en medios digitales.";
+
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(pitchText);
+                if (lang === 'FR') utterance.lang = 'fr-FR';
+                else if (lang === 'ES') utterance.lang = 'es-ES';
+                else utterance.lang = 'en-US';
+
+                utterance.onend = function() {
+                    btnText.innerText = 'Listen';
+                };
+                window.speechSynthesis.speak(utterance);
+            } else {
+                setTimeout(() => {
+                    btnText.innerText = 'Listen';
+                }, 3000);
+            }
+        }
+    </script>
+</body>
+</html>
