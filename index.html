@@ -72,7 +72,7 @@
             height: 100%;
             z-index: 0;
             pointer-events: none;
-            opacity: 0.95;
+            opacity: 0.8;
         }
 
         /* Custom Scrollbar */
@@ -738,8 +738,8 @@
         });
 
         const particles = [];
-        const particleCount = 70;
-        const linkDistance = 160;
+        const particleCount = 55;
+        const linkDistance = 140;
 
         for (let i = 0; i < particleCount; i++) {
             particles.push({
@@ -747,7 +747,7 @@
                 y: Math.random() * height,
                 vx: (Math.random() - 0.5) * 0.4,
                 vy: (Math.random() - 0.5) * 0.4,
-                radius: Math.random() * 2.2 + 1.3
+                radius: Math.random() * 2 + 1
             });
         }
 
@@ -755,7 +755,7 @@
         // away and drawn into an extra "network" link back to the pointer.
         let mouseX = null;
         let mouseY = null;
-        const mouseRadius = 190;
+        const mouseRadius = 170;
 
         window.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
@@ -790,7 +790,7 @@
                     }
                 }
 
-                ctx.fillStyle = 'rgba(225, 29, 72, 0.55)';
+                ctx.fillStyle = 'rgba(225, 29, 72, 0.35)';
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
                 ctx.fill();
@@ -802,7 +802,7 @@
                     const dist = Math.sqrt(dx * dx + dy * dy);
 
                     if (dist < linkDistance) {
-                        ctx.strokeStyle = `rgba(225, 29, 72, ${0.22 * (1 - dist / linkDistance)})`;
+                        ctx.strokeStyle = `rgba(225, 29, 72, ${0.12 * (1 - dist / linkDistance)})`;
                         ctx.beginPath();
                         ctx.moveTo(p.x, p.y);
                         ctx.lineTo(p2.x, p2.y);
@@ -815,7 +815,7 @@
                     const dym = p.y - mouseY;
                     const distm = Math.sqrt(dxm * dxm + dym * dym);
                     if (distm < mouseRadius) {
-                        ctx.strokeStyle = `rgba(225, 29, 72, ${0.65 * (1 - distm / mouseRadius)})`;
+                        ctx.strokeStyle = `rgba(225, 29, 72, ${0.45 * (1 - distm / mouseRadius)})`;
                         ctx.beginPath();
                         ctx.moveTo(p.x, p.y);
                         ctx.lineTo(mouseX, mouseY);
@@ -825,9 +825,9 @@
             }
 
             if (mouseX !== null) {
-                ctx.fillStyle = 'rgba(225, 29, 72, 0.85)';
+                ctx.fillStyle = 'rgba(225, 29, 72, 0.6)';
                 ctx.beginPath();
-                ctx.arc(mouseX, mouseY, 4, 0, Math.PI * 2);
+                ctx.arc(mouseX, mouseY, 3, 0, Math.PI * 2);
                 ctx.fill();
             }
 
