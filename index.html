@@ -132,6 +132,9 @@
                 <a href="mailto:k.willeme@gmail.com" class="px-4 py-2 text-xs font-bold rounded-lg bg-rose-600 hover:bg-rose-700 text-white transition shadow-sm shadow-rose-600/30 flex items-center gap-2">
                     <i class="fa-solid fa-paper-plane"></i> Contact Me
                 </a>
+                <button type="button" onclick="copyEmailToClipboard(this)" title="Copy email address" class="w-9 h-9 flex items-center justify-center rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition shrink-0">
+                    <i class="fa-regular fa-copy text-xs"></i>
+                </button>
             </div>
         </div>
     </nav>
@@ -186,10 +189,15 @@
 
                     <!-- Contact Buttons -->
                     <div class="w-full space-y-2.5">
-                        <a href="mailto:k.willeme@gmail.com" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold flex items-center justify-center gap-2 transition shadow-sm">
-                            <i class="fa-regular fa-envelope text-rose-400 text-sm"></i>
-                            <span>k.willeme@gmail.com</span>
-                        </a>
+                        <div class="w-full flex items-stretch rounded-xl overflow-hidden shadow-sm">
+                            <a href="mailto:k.willeme@gmail.com" class="flex-1 px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold flex items-center justify-center gap-2 transition">
+                                <i class="fa-regular fa-envelope text-rose-400 text-sm"></i>
+                                <span>k.willeme@gmail.com</span>
+                            </a>
+                            <button type="button" onclick="copyEmailToClipboard(this)" title="Copy email address" class="px-3 bg-slate-900 hover:bg-slate-700 text-white border-l border-white/10 transition flex items-center justify-center">
+                                <i class="fa-regular fa-copy text-xs"></i>
+                            </button>
+                        </div>
                         <a href="https://linkedin.com/in/kwilleme/" target="_blank" rel="noopener" class="w-full px-4 py-2.5 rounded-xl bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-700 text-xs font-semibold flex items-center justify-center gap-2 transition">
                             <i class="fa-brands fa-linkedin text-blue-600 text-base"></i> LinkedIn Profile
                         </a>
@@ -846,6 +854,42 @@
                 }
                 reader.readAsDataURL(file);
             }
+        }
+
+        // Copy Email Fallback (for visitors without a default mail client)
+        function copyEmailToClipboard(btn) {
+            const email = 'k.willeme@gmail.com';
+            const icon = btn.querySelector('i');
+            const originalClass = icon.className;
+            const originalTitle = btn.title;
+
+            function showCopied() {
+                icon.className = 'fa-solid fa-check text-xs';
+                btn.title = 'Copied!';
+                setTimeout(() => {
+                    icon.className = originalClass;
+                    btn.title = originalTitle;
+                }, 1800);
+            }
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(email).then(showCopied).catch(() => {
+                    fallbackCopy(email);
+                    showCopied();
+                });
+            } else {
+                fallbackCopy(email);
+                showCopied();
+            }
+        }
+
+        function fallbackCopy(text) {
+            const temp = document.createElement('textarea');
+            temp.value = text;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
         }
 
         function escapeHtml(text) {
