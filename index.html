@@ -965,21 +965,13 @@
         }
         drawParticles();
 
-        // Executive Profile illustration: crossfade between work and triathlon outfit on scroll
+        // Executive Profile illustration: crossfade from work to triathlon outfit after 15s
         const illustrationWork = document.getElementById('illustration-work');
         const illustrationTriathlon = document.getElementById('illustration-triathlon');
-        const illustrationSwitchOffset = 40;
-        let illustrationSwitched = false;
-
-        function updateIllustration() {
-            const shouldSwitch = window.scrollY > illustrationSwitchOffset;
-            if (shouldSwitch === illustrationSwitched) return;
-            illustrationSwitched = shouldSwitch;
-            illustrationWork.style.opacity = shouldSwitch ? '0' : '1';
-            illustrationTriathlon.style.opacity = shouldSwitch ? '1' : '0';
-        }
-        window.addEventListener('scroll', updateIllustration, { passive: true });
-        updateIllustration();
+        setTimeout(() => {
+            illustrationWork.style.opacity = '0';
+            illustrationTriathlon.style.opacity = '1';
+        }, 15000);
 
         // Photo Preview Loader
         function previewUserPhoto(event) {
