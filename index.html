@@ -151,8 +151,8 @@
                 <!-- Left Column: Avatar & Quick Info -->
                 <div class="lg:col-span-4 flex flex-col items-center text-center white-board-panel rounded-2xl p-6 lg:p-8">
                     <!-- Profile Picture -->
-                    <div class="relative mb-4 group cursor-pointer" onclick="document.getElementById('avatar-input').click()" title="Click to upload/change photo">
-                        <div class="absolute -inset-1 bg-gradient-to-r from-rose-500 to-rose-700 rounded-full blur opacity-40 group-hover:opacity-75 transition duration-500"></div>
+                    <div class="relative mb-4">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-rose-500 to-rose-700 rounded-full blur opacity-40"></div>
                         <div class="relative w-36 h-36 sm:w-40 sm:h-40 rounded-full overflow-hidden border-4 border-white shadow-xl">
                             <img id="profile-img"
                                  src="profile.jpg"
@@ -161,14 +161,8 @@
                                  class="absolute object-cover"
                                  style="width:150%; height:150%; max-width:none; max-height:none; top:-3%; left:-21%;">
                         </div>
-                        <div class="absolute inset-0 rounded-full bg-slate-900/50 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-white text-xs font-semibold z-10 backdrop-blur-[2px]">
-                            <i class="fa-solid fa-camera text-lg mb-1"></i>
-                            <span>Upload Photo</span>
-                        </div>
                         <span class="absolute bottom-2 right-2 w-5 h-5 bg-emerald-500 border-2 border-white rounded-full z-20" title="Available for Strategic Roles"></span>
                     </div>
-
-                    <input type="file" id="avatar-input" accept="image/*" class="hidden" onchange="previewUserPhoto(event)">
 
                     <!-- Badge -->
                     <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold mb-3">
@@ -972,18 +966,6 @@
             illustrationWork.style.opacity = '0';
             illustrationTriathlon.style.opacity = '1';
         }, 15000);
-
-        // Photo Preview Loader
-        function previewUserPhoto(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('profile-img').src = e.target.result;
-                }
-                reader.readAsDataURL(file);
-            }
-        }
 
         // Copy Email Fallback (for visitors without a default mail client)
         function copyEmailToClipboard(btn) {
